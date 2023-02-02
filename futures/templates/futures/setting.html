@@ -1,0 +1,46 @@
+{% extends "futures/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <!-- [ form-element ] start -->
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Setting</h5>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="text-center alert alert-{{ message.tags }}">{{ message|safe }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Api Key</label>
+                                    <input name="api_key"
+                                           type="text"
+                                           class="form-control"
+                                           value="{{ form.api_key.value }}"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Secret Key</label>
+                                    <input name="secret_key"
+                                           type="text"
+                                           class="form-control"
+                                           value="{{ form.secret_key.value }}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- [ form-element ] end -->
+    </div>
+{% endblock content %}

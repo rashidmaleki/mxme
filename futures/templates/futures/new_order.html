@@ -1,0 +1,194 @@
+{% extends "futures/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <!-- [ form-element ] start -->
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>New Future Order</h5>
+                    {{ success }}
+                </div>
+                <div class="card-body">
+                    {% if success %}
+                        <div class="alert alert-success" role="alert">New futures order submit successfully!</div>
+                    {% elif success == False %}
+                        <div class="alert alert-danger" role="alert">{{ code }} : {{ message }}</div>
+                    {% endif %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Symbol</label>
+                                    <select name="symbol"
+                                            class="form-control"
+                                            id="exampleFormControlSelect1"
+                                            Required>
+                                        <option value="">
+                                            ---
+                                        </option>
+                                        <option value="BTC_USDT">
+                                            BTC
+                                        </option>
+                                        <option value="ETH_USDT" selected>
+                                            ETH
+                                        </option>
+                                        <option value=3>
+                                            APT
+                                        </option>
+                                        <option value=4>
+                                            DYDX
+                                        </option>
+                                        <option value=5>
+                                            DOGE
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Volume</label>
+                                    <input name="vol" type="number" step="0.0001" class="form-control" value=0.01  Required/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Side</label>
+                                    <select name="side"
+                                            input="number"
+                                            class="form-control"
+                                            id="exampleFormControlSelect1"
+                                            Required>
+                                        <option value="">
+                                            ---
+                                        </option>
+                                        <option value=1 selected>
+                                            open long
+                                        </option>
+                                        <option value=2>
+                                            close short
+                                        </option>
+                                        <option value=3>
+                                            open short
+                                        </option>
+                                        <option value=4>
+                                            close
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Type</label>
+                                    <select name="type"
+                                            class="form-control"
+                                            id="exampleFormControlSelect1"
+                                            Required>
+                                        <option value="">
+                                            ---
+                                        </option>
+                                        <option value=1 selected>
+                                            price limited order
+                                        </option>
+                                        <option value=2>
+                                            Post Only Maker
+                                        </option>
+                                        <option value=3>
+                                            transact or cancel instantly
+                                        </option>
+                                        <option value=4>
+                                            transact completely or cancel completely
+                                        </option>
+                                        <option value=5>
+                                            market orders
+                                        </option>
+                                        <option value=6>
+                                            convert market price to current price
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Position ID</label>
+                                    <input name="positionId"
+                                           type="number"
+                                           class="form-control"
+                                           id="exampleInputEmail1"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Stop Loss Price</label>
+                                    <input name="stopLossPrice"
+                                           type="number"
+                                           step="0.0001"
+                                           class="form-control"
+                                           id="exampleInputEmail1"/>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input name="reduceOnly"
+                                           type="checkbox"
+                                           class="form-check-input"
+                                           id="exampleCheck1"/>
+                                    <label class="form-check-label" for="exampleCheck1">Reduce Only</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input name="price" type="number" step="0.0001" class="form-control" value=1670.26 Required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Leverage</label>
+                                    <input name="leverage" type="number" step="0.0001" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Open Type</label>
+                                    <select name="openType"
+                                            class="form-control"
+                                            id="exampleFormControlSelect1"
+                                            Required>
+                                        <option value="">
+                                            ---
+                                        </option>
+                                        <option value=1 selected>
+                                            isolated
+                                        </option>
+                                        <option value=2>
+                                            cross
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">External Oid</label>
+                                    <input name="externalOid"
+                                           type="number"
+                                           class="form-control"
+                                           id="exampleInputEmail1"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Take Profit Price</label>
+                                    <input name="takeProfitPrice"
+                                           type="number"
+                                           step="0.0001"
+                                           class="form-control"
+                                           id="exampleInputEmail1"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Position Mode</label>
+                                    <select name="positionMode"
+                                            class="form-control"
+                                            id="exampleFormControlSelect1">
+                                        <option value="">
+                                            ---
+                                        </option>
+                                        <option value=1>
+                                            hedge
+                                        </option>
+                                        <option value=2>
+                                            one-way
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- [ form-element ] end -->
+    </div>
+{% endblock content %}
