@@ -3,6 +3,7 @@ from django.views.generic import View, UpdateView
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 from json import dumps
 from .mexc import MexcApi
@@ -14,7 +15,7 @@ from django.http import HttpResponseRedirect
 # Create your views here.
 
 
-class DashboardView(View):
+class DashboardView(LoginRequiredMixin, View):
     template_name = 'futures/dashboard.html'
 
     def get(self, request, *args, **kwargs):
@@ -28,7 +29,7 @@ class DashboardView(View):
         context["current_page"] = "dashboard"
         return context
 
-class NewOrderView(View):
+class NewOrderView(LoginRequiredMixin, View):
     template_name = 'futures/new_order.html'
 
     def get_context_data(self, **kwargs):
@@ -62,7 +63,7 @@ class NewOrderView(View):
    
 
 
-class SettingView(SuccessMessageMixin, UpdateView):
+class SettingView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Setting
     form_class = SettingForm
     template_name = 'futures/setting.html'
