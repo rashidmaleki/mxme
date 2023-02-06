@@ -1,0 +1,125 @@
+{% extends "futures/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="row">
+        <!-- [ form-element ] start -->
+        <div class="col-sm-12">
+            <!-- [ basic-table ] start -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>Order List</h5>
+                </div>
+                <div class="card-block table-border-style">
+                    {% if orders.success == False %}
+                    <div class="alert alert-danger" role="alert">{{ orders.code }} : {{ orders.message }}</div>
+                    {% endif %}
+
+                    {% if orders.success %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Position Id</th>
+                                    <th>Symbol</th>
+                                    <th>Position Type</th>
+                                    <th>Open Type</th>
+                                    <th>State</th>
+                                    <th>Hold Vol</th>
+                                    <th>Frozen Vol</th>
+                                    <th>Close Vol</th>
+                                    <th>Hold Avg Price</th>
+                                    <th>Open Avg Price</th>
+                                    <th>Close Avg Price</th>
+                                    <th>Liquidate Price</th>
+                                    <th>oim</th>
+                                    <th>im</th>
+                                    <th>Hold Fee</th>
+                                    <th>Realised</th>
+                                    <th>Leverage</th>
+                                    <th>Create Time</th>
+                                    <th>Update Time</th>
+                                    <th>Auto Add Im</th>
+                                    <th>Version</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orders.data %}
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>
+                                            {{ order.positionId }}
+                                        </td>
+                                        <td>
+                                            {{ order.symbol }}
+                                        </td>
+                                        <td>
+                                            {{ order.positionType }}
+                                        </td>
+                                        <td>
+                                            {{ order.openType }}
+                                        </td>
+                                        <td>
+                                            {{ order.state }}
+                                        </td>
+                                        <td>
+                                            {{ order.holdVol }}
+                                        </td>
+                                        <td>
+                                            {{ order.frozenVol }}
+                                        </td>
+                                        <td>
+                                            {{ order.closeVol }}
+                                        </td>
+                                        <td>
+                                            {{ order.holdAvgPrice }}
+                                        </td>
+                                        <td>
+                                            {{ order.openAvgPrice }}
+                                        </td>
+                                        <td>
+                                            {{ order.closeAvgPrice }}
+                                        </td>
+                                        <td>
+                                            {{ order.liquidatePrice }}
+                                        </td>
+                                        <td>
+                                            {{ order.oim }}
+                                        </td>
+                                        <td>
+                                            {{ order.im }}
+                                        </td>
+                                        <td>
+                                            {{ order.holdFee }}
+                                        </td>
+                                        <td>
+                                            {{ order.realised }}
+                                        </td>
+                                        <td>
+                                            {{ order.leverage }}
+                                        </td>
+                                        <td>
+                                            {{ order.createTime }}
+                                        </td>
+                                        <td>
+                                            {{ order.updateTime }}
+                                        </td>
+                                        <td>
+                                            {{ order.autoAddIm }}
+                                        </td>
+                                        <td>
+                                            {{ order.version }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- [ basic-table ] end -->
+        </div>
+        <!-- [ form-element ] end -->
+    </div>
+{% endblock content %}

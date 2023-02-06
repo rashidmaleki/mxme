@@ -35,10 +35,9 @@ def get_sign(api_key, api_sec, req_method, params=None):
 
 
 class MexcApi:
-    def __init__(self, api_key, api_sec, params):
-        self.api_key = api_key
-        self.api_sec = api_sec
-        self.params = params
+    api_key = None
+    api_sec = None
+    params = None
 
     def order_cancel_all(self):
         url = "https://contract.mexc.com/api/v1/private/order/cancel_all"
@@ -99,3 +98,29 @@ class MexcApi:
             json.dump(p.json(), f, ensure_ascii=False, indent=4)
 
         return p.json()
+    
+    def all_contract(self):
+        url = "https://contract.mexc.com/api/v1/contract/detail"
+        res = requests.get(url).json()
+        return res
+        
+    def order_list(self):
+        url = "https://contract.mexc.com/api/v1/private/position/list/history_positions"
+
+        sign = get_sign(api_key=self.api_key, api_sec=self.api_sec,
+                        params=self.params, req_method="get")
+
+        headers = {
+            "Request-Time": sign["stemp"],
+            "ApiKey": self.api_key,
+            "Content-Type": "application/json",
+            "Signature": sign["code"],
+        }
+
+        p = requests.get(url, headers=headers, data=self.params)
+
+        with open("data.json", "w", encoding="utf-8") as f:
+            json.dump(p.json(), f, ensure_ascii=False, indent=4)
+
+        return p.json()
+

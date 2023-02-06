@@ -7,7 +7,6 @@
             <div class="card">
                 <div class="card-header">
                     <h5>New Future Order</h5>
-                    {{ success }}
                 </div>
                 <div class="card-body">
                     {% if success %}
@@ -28,21 +27,11 @@
                                         <option value="">
                                             ---
                                         </option>
-                                        <option value="BTC_USDT">
-                                            BTC
+                                        {% for symbol in symbols %}
+                                        <option value="{{ symbol.symbol }}">
+                                            {{ symbol.baseCoinName }}
                                         </option>
-                                        <option value="ETH_USDT">
-                                            ETH
-                                        </option>
-                                        <option value=3>
-                                            APT
-                                        </option>
-                                        <option value=4>
-                                            DYDX
-                                        </option>
-                                        <option value=5>
-                                            DOGE
-                                        </option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="form-group">

@@ -31,19 +31,18 @@ class DashboardView(LoginRequiredMixin, View):
 
 class NewOrderView(LoginRequiredMixin, View):
     template_name = 'futures/new_order.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+    mexc = MexcApi()
 
     def get(self, request, *args, **kwargs):
+        symbols = self.mexc.all_contract()
+        
         context = {
-            "current_page":"new_order"
+            "current_page":"new_order",
+            "symbols": symbols['data']
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
-        symbol = request.POST['symbol']
         params = {
             "symbol": request.POST['symbol'],
             "price": request.POST['price'],
@@ -54,14 +53,44 @@ class NewOrderView(LoginRequiredMixin, View):
             "openType": request.POST['openType'],
             "positionMode": request.POST['positionMode']
         }
+
         user_key, created = Setting.objects.get_or_create(
-            user=self.request.user)
-        mxc = MexcApi(api_key=user_key.api_key,
-                      api_sec=user_key.secret_key, params=dumps(params))
-        context = mxc.order_new()
+        user=self.request.user)
+        
+        mexc = MexcApi()
+        mexc.api_key = user_key.api_key
+        mexc.api_sec = user_key.secret_key
+        mexc.params = dumps(params)
+        context = mexc.order_new()
+
         return render(request, self.template_name, context)
    
 
+class OrderListView(LoginRequiredMixin, View):
+    template_name = 'futures/order_list.html'
+    
+    def get(self, request, *args, **kwargs):
+
+        params = {
+            "page_num": 1,
+            "page_size": 20,
+        }
+
+        user_key, created = Setting.objects.get_or_create(
+                user=self.request.user)
+        
+        mexc = MexcApi()
+        mexc.api_key = user_key.api_key
+        mexc.api_sec = user_key.secret_key
+        mexc.params = dumps(params)
+        order_list = mexc.order_list()
+        orders = order_list
+        
+        context = {
+            "current_page":"order_list",
+            "orders":orders,
+        }
+        return render(request, self.template_name, context)
 
 class SettingView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Setting
